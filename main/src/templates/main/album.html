@@ -1,0 +1,59 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}{{ business.name }}'s Menu{% endblock %}
+
+{% block content %}
+<main>
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">{{ business.name }}'s Menu</h1>
+        <p class="lead text-muted">Explore our delicious categories and discover your next favorite dish.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        {% for category in business.categories.all %}
+        <div class="col-md-4">
+          <div class="card mb-3">
+            <h3 class="card-header">{{ category.name }}</h3>
+            <div class="card-body">
+              <h5 class="card-title">Our Best Picks</h5>
+              <h6 class="card-subtitle text-muted">Delicious Choices</h6>
+            </div>
+            <img src="{{ category.image.name }}" class="card-img-top" alt="{{ category.name }} image">
+            <div class="card-body">
+              <p class="card-text">Discover our delightful {{ category.name }} selection.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              {% for item in category.items.all %}
+              <li class="list-group-item">
+                <strong>{{ item.name }}</strong>: ${{ item.price }}
+                {% if item.is_vegan %}
+                <span class="badge bg-success">Vegan</span>
+                {% endif %}
+                {% if item.sin_tacc %}
+                <span class="badge bg-warning text-dark">Gluten-Free</span>
+                {% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+            <div class="card-body">
+              <a href="#" class="card-link">Order Now</a>
+              <a href="#" class="card-link">More Info</a>
+            </div>
+            <div class="card-footer text-muted">
+              Updated recently
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

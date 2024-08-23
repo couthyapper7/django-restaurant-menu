@@ -4,40 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ business.name }} Menu</title>
+    <style>
+        body {
+            background-color: #181818;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #222;
+            box-sizing: border-box;
+            margin-bottom: 0;
+        }
+
+        .menu {
+            font-size: 24px;
+        }
+
+        .icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .main-content {
+            width: 100vw; /* Full width of the viewport */
+            height: 25vw; /* Fixed height for the image */
+            background-image: url("media/business/453f0f82-a3c3-45d1-bd57-447db16dff67/banners/zula-banners.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0; /* Remove any margin */
+            padding: 0; /* Remove any padding */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            font-size: 5vw;
+        }
+
+
+        .categories {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding: 20px; /* Add some padding for spacing */
+            max-width: 80vw; /* Limit the width for the categories area */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .categories .category {
+            flex: 1 1 200px; /* Flex-grow, flex-shrink, and base width */
+            max-width: 200px; /* Ensure they don't grow too large */
+            height: 300px;
+            background-color: #333;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s; /* Add transform transition */
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
+            border: 2px solid #fff;
+            user-select: none;
+            text-decoration: none; /* Remove text underline */
+            color: inherit; /* Ensure the text color matches the surrounding text */
+        }
+
+        .category img {
+            width: 195px;
+            height: 290px;
+            padding: 2px; /* Add some padding for spacing */
+            margin-bottom: 5px;
+        }
+
+        .category:hover {
+            background-color: #555;
+            transform: scale(1.1); /* Scale up the category box on hover */
+        }
+
+        .category a {
+            text-decoration: none;
+            color: inherit; /* Ensures text does not appear as a link */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .category-text {
+            pointer-events: none; /* Prevents text from being clickable */
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>{{ business.name }}</h1>
-        <p>Welcome to {{ business.name }}! Below is our menu:</p>
-    </header>
+    <div class="header">
+        <div class="menu">
+            {% if business.icon %}
+                <img src="{{ business.icon.url }}" alt="{{ business.name }} Icon" style="height: 40px; vertical-align: middle;">
+            {% endif %}
+            {{ business.name }}
+        </div>
+        <div class="icons">
+            <!-- Add any additional icons or links here -->
+        </div>
+    </div>
 
-    <section>
-        <h2>Categories</h2>
+    <div class="main-content">
+        <h1>lorem ipsum</h1>
+    </div>
+
+    <div class="categories">
         {% for category in business.categories.all %}
             <div class="category">
-                <h3>{{ category.name }}</h3>
-                {% if category.image %}
-                    <img src="{{ category.image.url }}" alt="{{ category.name }} image">
-                {% endif %}
-                <ul>
-                    {% for item in category.items.all %}
-                        <li>
-                            <strong>{{ item.name }}</strong>: {{ item.description }} - ${{ item.price }}
-                            {% if item.is_vegan %}
-                                <span>(Vegan)</span>
-                            {% endif %}
-                            {% if item.sin_tacc %}
-                                <span>(Gluten-Free)</span>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
+                <a href="#">
+                    <img src="{{ category.image.url }}" alt="{{ category.name }}">
+                    <div class="category-text">{{ category.name }}</div>
+                </a>
             </div>
         {% endfor %}
-    </section>
-
-    <footer>
-        <p>Thank you for visiting {{ business.name }}. Enjoy your meal!</p>
-    </footer>
+    </div>
 </body>
 </html>
