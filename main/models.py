@@ -30,11 +30,9 @@ class Business(models.Model):
         return self.name
 
 def category_image_upload_path(instance, filename):
-    ext = filename.split('.')[-1]  # Get the file extension
-    filename = f"{instance.name}.{ext}"  # Create a new filename with the category's name
+    ext = filename.split('.')[-1]
+    filename = f"{instance.name}.{ext}"
     return os.path.join('category', instance.business.name, instance.business.url_identifier, filename)
-
-
 
 class Category(models.Model):
     name = models.CharField(max_length=100)

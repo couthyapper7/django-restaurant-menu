@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>{{ business.name }} Menu</title>
     <style>
         body {
@@ -13,31 +14,10 @@
             padding: 0;
         }
 
-        .header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background-color: #222;
-            box-sizing: border-box;
-            margin-bottom: 0;
-        }
-
-        .menu {
-            font-size: 24px;
-        }
-
-        .icons {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
         .main-content {
             width: 100vw; /* Full width of the viewport */
             height: 25vw; /* Fixed height for the image */
-            background-image: url("media/business/453f0f82-a3c3-45d1-bd57-447db16dff67/banners/zula-banners.png");
+            background-image: url('{{ business.banner.url }}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -50,93 +30,81 @@
             font-size: 5vw;
         }
 
-
-        .categories {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 20px;
-            padding: 20px; /* Add some padding for spacing */
-            max-width: 80vw; /* Limit the width for the categories area */
-            margin-left: auto;
-            margin-right: auto;
+        .container.my-4 {
+            margin-top: 20px; /* Add margin at the top */
+            margin-bottom: 20px; /* Add margin at the bottom */
         }
 
-        .categories .category {
-            flex: 1 1 200px; /* Flex-grow, flex-shrink, and base width */
-            max-width: 200px; /* Ensure they don't grow too large */
-            height: 300px;
-            background-color: #333;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s; /* Add transform transition */
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            flex-direction: column;
-            border: 2px solid #fff;
-            user-select: none;
-            text-decoration: none; /* Remove text underline */
-            color: inherit; /* Ensure the text color matches the surrounding text */
+        /* Ensure all cards are the same size */
+        .card {
+            height: 400px; /* Fixed height for all cards */
         }
 
-        .category img {
-            width: 195px;
-            height: 290px;
-            padding: 2px; /* Add some padding for spacing */
-            margin-bottom: 5px;
+        /* Card responsiveness: adjust the height for different screen sizes */
+        @media (max-width: 768px) {
+            .card {
+                height: 350px; /* Slightly smaller height on smaller screens */
+            }
         }
 
-        .category:hover {
-            background-color: #555;
-            transform: scale(1.1); /* Scale up the category box on hover */
+        @media (min-width: 1200px) {
+            .card {
+                height: 450px; /* Larger height for bigger screens */
+            }
         }
 
-        .category a {
-            text-decoration: none;
-            color: inherit; /* Ensures text does not appear as a link */
+        /* Ensure images adapt to the card size and show the full image */
+        .card-img-top {
+            width: 100%; /* Make image width fill the card */
+            height: 60%; /* The image will take 60% of the card height */
+            object-fit: contain; /* Ensure the whole image is visible, maintaining aspect ratio */
+        }
+
+        /* Set a fixed size for the card body so text and buttons are evenly sized */
+        .card-body {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-        }
-
-        .category-text {
-            pointer-events: none; /* Prevents text from being clickable */
+            justify-content: space-between; /* Space out title and button */
+            height: 40%; /* Remaining 40% of the card */
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="menu">
-            {% if business.icon %}
-                <img src="{{ business.icon.url }}" alt="{{ business.name }} Icon" style="height: 40px; vertical-align: middle;">
-            {% endif %}
-            {{ business.name }}
-        </div>
-        <div class="icons">
-            <!-- Add any additional icons or links here -->
-        </div>
-    </div>
-
-    <div class="main-content">
-        <h1>lorem ipsum</h1>
-    </div>
-
-    <div class="categories">
-        {% for category in business.categories.all %}
-            <div class="category">
-                <a href="#">
-                    <img src="{{ category.image.url }}" alt="{{ category.name }}">
-                    <div class="category-text">{{ category.name }}</div>
-                </a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">{{ business.name }}</a>
+            <div class="d-flex align-items-center">
+                {% if business.icon %}
+                    <!-- Wrap the image in an anchor tag to make it clickable -->
+                    <a href="{% url 'business-detail' business.url_identifier %}"> <!-- Adjust the URL name and parameter as needed -->
+                        <img src="{{ business.icon.url }}" alt="{{ business.name }} Icon" class="rounded-circle" style="height: 40px; width: 40px;">
+                    </a>
+                {% endif %}
             </div>
-        {% endfor %}
+        </div>
+    </nav>
+
+    <div class="container-fluid p-0">
+        <div class="main-content d-flex justify-content-center align-items-center" style="background-image: url('{{ business.banner.url }}'); height: 25vw;">
+        </div>
+
+        <div class="container my-4">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4"> <!-- Responsive grid for different screen sizes -->
+                {% for category in business.categories.all %}
+                    <div class="col"> <!-- Adjusted column size for responsiveness -->
+                        <div class="card h-100 bg-dark text-white mx-2"> <!-- Added mx-2 for horizontal margin -->
+                            <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ category.name }}</h5>
+                                <a href="{% url 'category-items' url_identifier=business.url_identifier category_name=category.name %}" class="btn btn-outline-light">View Items</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
