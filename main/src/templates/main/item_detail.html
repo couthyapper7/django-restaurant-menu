@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ item.name }} - Details</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        background-color: #181818;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            {% if category.name %}
+            <a href="{% url 'category-items' url_identifier=business.url_identifier category_name=category.name %}" class="btn btn-outline-light">
+                Volver
+            </a>
+        {% else %}
+            <span>Category not found</span>
+        {% endif %}
+        
+            <div class="d-flex align-items-center ms-auto">
+                {% if business.icon %}
+                <a href="{% url 'business-detail' business.url_identifier %}">
+                    <img src="{{ business.icon.url }}" alt="{{ business.name }} Icon" class="rounded-circle" style="height: 40px; width: 40px;">
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="card bg-dark text-white h-100 mb-4">
+            <div class="row g-0">
+                <div class="col-md-4 d-flex justify-content-center align-items-center">
+                    <img src="{{ item.image.url }}" class="img-fluid rounded" alt="{{ item.name }}" style="object-fit: cover; height: 100%; width: 100%;">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        
+                        <!-- Display badges if applicable -->
+                        <div class="mb-2">
+                            {% if item.sin_tacc %}
+                            <span class="badge badge-success badge-custom">Sin TACC</span>
+                            {% endif %}
+                            {% if item.vegano %}
+                            <span class="badge badge-success badge-custom">Vegano</span>
+                            {% endif %}
+                        </div>
+
+                        <p class="card-text">{{ item.description }}</p>
+                        <p class="card-text">$ {{ item.price }}</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+</body>
+</html>

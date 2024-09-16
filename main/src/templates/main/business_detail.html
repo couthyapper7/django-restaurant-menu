@@ -13,7 +13,6 @@
             margin: 0;
             padding: 0;
         }
-
         .main-content {
             width: 100vw; /* Full width of the viewport */
             height: 25vw; /* Fixed height for the image */
@@ -30,73 +29,46 @@
             font-size: 5vw;
         }
 
-        .container.my-4 {
-            margin-top: 20px; /* Add margin at the top */
-            margin-bottom: 20px; /* Add margin at the bottom */
+                .card {
+            height: 100%; /* Make sure the cards have equal height */
         }
 
-        /* Ensure all cards are the same size */
-        .card {
-            height: 400px; /* Fixed height for all cards */
-        }
-
-        /* Card responsiveness: adjust the height for different screen sizes */
-        @media (max-width: 768px) {
-            .card {
-                height: 350px; /* Slightly smaller height on smaller screens */
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .card {
-                height: 450px; /* Larger height for bigger screens */
-            }
-        }
-
-        /* Ensure images adapt to the card size and show the full image */
         .card-img-top {
-            width: 100%; /* Make image width fill the card */
-            height: 60%; /* The image will take 60% of the card height */
-            object-fit: contain; /* Ensure the whole image is visible, maintaining aspect ratio */
+            height: 150px; /* Set image height */
+            object-fit: cover; /* Prevent image distortion */
         }
 
-        /* Set a fixed size for the card body so text and buttons are evenly sized */
-        .card-body {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; /* Space out title and button */
-            height: 40%; /* Remaining 40% of the card */
-        }
     </style>
 </head>
-<body>
+<body class="text-white">
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">{{ business.name }}</a>
             <div class="d-flex align-items-center">
                 {% if business.icon %}
-                    <!-- Wrap the image in an anchor tag to make it clickable -->
-                    <a href="{% url 'business-detail' business.url_identifier %}"> <!-- Adjust the URL name and parameter as needed -->
-                        <img src="{{ business.icon.url }}" alt="{{ business.name }} Icon" class="rounded-circle" style="height: 40px; width: 40px;">
-                    </a>
+                <a href="{% url 'business-detail' business.url_identifier %}">
+                    <img src="{{ business.icon.url }}" alt="{{ business.name }} Icon" class="rounded-circle"
+                        style="height: 40px; width: 40px;">
+                </a>
                 {% endif %}
             </div>
         </div>
     </nav>
 
     <div class="container-fluid p-0">
-        <div class="main-content d-flex justify-content-center align-items-center" style="background-image: url('{{ business.banner.url }}'); height: 25vw;">
+        <div class="main-content d-flex justify-content-center align-items-center" style="background-image: url('{{ business.banner.url }}'); height: 20vw;">
         </div>
 
         <div class="container my-4">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4"> <!-- Responsive grid for different screen sizes -->
+            <div class="row">
                 {% for category in business.categories.all %}
-                    <div class="col"> <!-- Adjusted column size for responsiveness -->
-                        <div class="card h-100 bg-dark text-white mx-2"> <!-- Added mx-2 for horizontal margin -->
-                            <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ category.name }}</h5>
-                                <a href="{% url 'category-items' url_identifier=business.url_identifier category_name=category.name %}" class="btn btn-outline-light">View Items</a>
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2 mb-4">                        
+                    <div class="card bg-dark text-white h-100">                            
+                        <img src="{{ category.image.url }}" class="card-img-top img-fluid" alt="{{ category.name }}">
+                        <div class="card-body text-center d-flex flex-column justify-content-between">
+                            <h5 class="card-title">{{ category.name }}</h5>
+                            <a href="{% url 'category-items' url_identifier=business.url_identifier category_name=category.name %}" class="btn btn-outline-light">View Items</a>
                             </div>
                         </div>
                     </div>
