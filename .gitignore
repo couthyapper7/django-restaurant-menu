@@ -1,0 +1,42 @@
+# Ignore media directory
+/media/
+
+# Ignore SQLite database
+*.sqlite3
+
+# Ignore Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore virtual environments
+venv/
+env/
+.virtualenv/
+
+# Ignore environment variables file
+.env
+
+# Ignore compiled C files
+*.so
+
+# Ignore Django migrations
+*/migrations/*
+
+# Ignore static files collected by collectstatic
+staticfiles/
+
+# Ignore Docker and build files
+docker-compose.override.yml
+*.log
+*.pot
+*.pyc
+node_modules/
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore Python packaging files
+*.egg-info/
+dist/
+build/
