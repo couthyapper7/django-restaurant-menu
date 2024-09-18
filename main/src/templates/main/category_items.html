@@ -35,7 +35,6 @@
         .badge-warning {
             background-color: #ffc107;
         }
-        /* Remove underline and change link color */
         a.card-link {
             text-decoration: none;
             color: inherit;
@@ -51,7 +50,6 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container-fluid">
-            <!-- Display the category name instead of the business name -->
             <a class="navbar-brand" href="{% url 'category-items' url_identifier=business.url_identifier category_name=category.name %}">{{ category.name }}</a>
             <div class="d-flex align-items-center">
                 {% if business.icon %}
@@ -62,19 +60,29 @@
             </div>
         </div>
     </nav>
-    
-    <!-- Items Grid -->
+
+    <!-- Filter Dropdown -->
     <div class="container my-4">
+        <div class="dropdown mb-4">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filtrar Items
+            </button>
+            <div class="dropdown-menu" aria-labelledby="filterDropdown">
+                <a class="dropdown-item {% if not selected_filter %}active{% endif %}" href="?filter=">Todos</a>
+                <a class="dropdown-item {% if selected_filter == 'sin_tacc' %}active{% endif %}" href="?filter=sin_tacc">Sin TACC</a>
+                <a class="dropdown-item {% if selected_filter == 'vegan' %}active{% endif %}" href="?filter=vegan">Vegano</a>
+            </div>
+        </div>
+
+        <!-- Items Grid -->
         <div class="row justify-content-center">
             {% for item in items %}
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-4">
                 <a href="{% url 'item-detail' url_identifier=business.url_identifier category_name=category.name item_id=item.id %}" class="card-link">
                     <div class="card bg-dark text-white h-100" style="max-height: 150px;">
                         <div class="row no-gutters h-100">
-                            <div class="col-4 d-flex align-items-center justify-content-center" 
-                                    style="height: 150px; width: 150px;">
-                                <img src="{{ item.image.url }}" class="img-fluid rounded-start" 
-                                        alt="{{ item.name }}" style="object-fit: cover; height: 100%; width: 100%;">
+                            <div class="col-4 d-flex align-items-center justify-content-center" style="height: 150px; width: 150px;">
+                                <img src="{{ item.image.url }}" class="img-fluid rounded-start" alt="{{ item.name }}" style="object-fit: cover; height: 100%; width: 100%;">
                             </div>
                             <div class="col-8 d-flex flex-column justify-content-between">
                                 <div class="card-body">
@@ -92,6 +100,8 @@
             {% endfor %}
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

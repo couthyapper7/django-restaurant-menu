@@ -30,6 +30,10 @@ class Business(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta: 
+        verbose_name = "Business"
+        verbose_name_plural = "Businesses"
+
 def category_image_upload_path(instance, filename):
     ext = filename.split('.')[-1]
     filename = f"{instance.name}.{ext}"
@@ -42,7 +46,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
+    class Meta: 
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
 
 
 def item_image_upload_path(instance, filename):
@@ -72,3 +78,7 @@ class Item(models.Model):
             img.save(webp_image_path, 'WEBP')
             self.image.name = os.path.splitext(self.image.name)[0] + '.webp'
             super().save(*args, **kwargs)
+
+    class Meta: 
+        verbose_name = "Item"
+        verbose_name_plural = "Items"
