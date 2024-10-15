@@ -4,7 +4,7 @@ A proprietary, dynamic restaurant menu system built with Django. This applicatio
 
 ## Important Notice
 
-This is a private repository containing proprietary code. Viewing is permitted, but any use, modification, or distribution of this code is strictly prohibited without explicit written permission from the owner, [Your Full Name].
+This is a private repository containing proprietary code. Viewing is permitted, but any use, modification, or distribution of this code is strictly prohibited without explicit written permission from the owner
 
 ## Features
 
@@ -82,8 +82,8 @@ For production deployment:
 
 ## License
 
-This project is proprietary software. All rights are reserved. No use, modification, or distribution is permitted without explicit written permission from the owner, [Your Full Name].
+This project is proprietary software. All rights are reserved. No use, modification, or distribution is permitted without explicit written permission from the owner, Fausto Caminiti.
 
-© [Your Full Name] [Year]
+© Fausto Caminiti, 2024
 
-For inquiries about licensing or usage, please contact [Your Email Address].
+For inquiries about licensing or usage, please contact couthyapper79@gmail.com.
