@@ -18,8 +18,8 @@ This is a private repository containing proprietary code. Viewing is permitted, 
 ## Technology Stack
 
 - Python 3.8+
-- Django 3.2.20
-- Pillow 9.5.0
+- Django 5.0.7
+- Pillow 10.2.0
 - python-dotenv 1.0.0
 - gunicorn 20.1.0
 - whitenoise 6.5.0
