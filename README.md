@@ -1,89 +1,198 @@
-# Django Restaurant Menu
+# 🍽️ Django Digital Menu System
 
-A proprietary, dynamic restaurant menu system built with Django. This application allows restaurant owners to create and manage their digital menus with ease, featuring multiple themes and user-specific business management.
+A robust, scalable digital menu management system built with Django that enables businesses to create and manage their digital menus with ease. This full-stack application showcases modern web development practices, secure user management, and responsive design.
 
-## Important Notice
+## 🚀 Key Features
 
-This is a private repository containing proprietary code. Viewing is permitted, but any use, modification, or distribution of this code is strictly prohibited without explicit written permission from the owner
+- **Multi-tenant Architecture**: Each business gets its own customizable space with unique URL identifiers
+- **Dynamic Menu Management**: Hierarchical category-based menu organization
+- **Image Processing**: Automatic WebP conversion and optimization
+- **Responsive Design**: Mobile-first approach using Bootstrap
+- **Role-Based Access Control**: Secure multi-user environment
+- **Dietary Preference Filtering**: Support for various dietary restrictions (Vegan, Sin TACC)
+- **Custom Admin Interface**: Intuitive management dashboard
 
-## Features
+## 🛠️ Technologies Used
 
-- User authentication for restaurant owners
-- Customizable menu categories and items
-- Multiple theme options for menu display
-- Responsive design for various devices
-- Image upload and processing for menu items
-- URL-based access to individual restaurant menus
+- **Backend**: Django 5.0.7
+- **Frontend**: HTML5, CSS3, Bootstrap 4.5
+- **Database**: SQLite (development) / PostgreSQL (production-ready)
+- **Image Processing**: Pillow 10.2.0
+- **Authentication**: Django Auth System
+- **Version Control**: Git
+- **Other Tools**: JWT, REST Framework (API-ready)
 
-## Technology Stack
+## 📦 Installation
 
-- Python 3.8+
-- Django 5.0.7
-- Pillow 10.2.0
-- python-dotenv 1.0.0
-- gunicorn 20.1.0
-- whitenoise 6.5.0
-- django-storages 1.13.2
-- boto3 1.28.3
-
-## Project Structure
-
-```
-django-restaurant-menu/
-├── menu/                   # Project configuration
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-├── main/                   # Main application
-│   ├── admin.py
-│   ├── models.py
-│   ├── views.py
-│   ├── urls.py
-│   └── templates/
-│       └── themes/
-│           ├── default_1/
-│           ├── default_2/
-│           ├── dropdown/
-│           └── dropdown_2/
-├── static/                 # Static files (CSS, JS, images)
-├── media/                  # User-uploaded files
-├── manage.py
-├── requirements.txt
-└── .env                    # Environment variables (not in version control)
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/django-menu-system.git
+cd django-menu-system
 ```
 
-## Key Components
+2. Create and activate virtual environment
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
+```
 
-### Models (models.py)
+3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
 
-1. `Business`: Represents a restaurant with its details and theme.
-2. `Category`: Represents a menu category (e.g., "Appetizers", "Main Courses").
-3. `Item`: Represents a menu item with details like name, description, and price.
+4. Set up environment variables
+```bash
+cp .env.example .env
+# Edit .env with your configuration
+```
 
-### Views (views.py)
+5. Run migrations
+```bash
+python manage.py migrate
+```
 
-1. `BusinessDetailView`: Displays the main page for a restaurant's menu.
-2. `CategoryItemsView`: Shows items for a specific category.
-3. `item_detail`: Displays details for a specific menu item.
+6. Create superuser
+```bash
+python manage.py createsuperuser
+```
 
-### Admin (admin.py)
+7. Start development server
+```bash
+python manage.py runserver
+```
 
-Custom admin classes for each model, ensuring that restaurant owners can only manage their own businesses, categories, and items.
+## 🏗️ Project Structure
 
-## Deployment
+```
+django-menu-system/
+│
+├── main/                   # Main application directory
+│   ├── models.py          # Data models
+│   ├── views.py           # View logic
+│   ├── admin.py           # Admin interface customization
+│   ├── forms.py           # Form definitions
+│   └── urls.py            # URL routing
+│
+├── templates/             # HTML templates
+│   ├── business_detail.html
+│   ├── category_items.html
+│   └── item_detail.html
+│
+├── static/               # Static files (CSS, JS, Images)
+│
+├── media/               # User-uploaded content
+│
+└── menu/               # Project configuration
+    ├── settings.py
+    └── urls.py
+```
 
-This project is configured to use AWS S3 for static and media file storage. Ensure you have set up an S3 bucket and configured the necessary environment variables before deploying.
+## 💡 Technical Highlights
 
-For production deployment:
-1. Set `DEBUG=False` in your environment variables.
-2. Use a production-ready database like PostgreSQL.
-3. Set up a reverse proxy server like Nginx.
-4. Use Gunicorn as the application server.
+### Secure File Upload System
+```python
+def business_image_upload_path(instance, filename, folder):
+    ext = filename.split('.')[-1]
+    filename = f"{instance.name}-{folder}.{ext}"
+    return os.path.join('business', instance.url_identifier, folder, filename)
+```
 
-## License
+### Automatic Image Optimization
+```python
+def save(self, *args, **kwargs):
+    super().save(*args, **kwargs)
+    if self.image:
+        img = Image.open(self.image.path)
+        webp_image_path = os.path.splitext(self.image.path)[0] + '.webp'
+        img.save(webp_image_path, 'WEBP')
+```
 
-This project is proprietary software. All rights are reserved. No use, modification, or distribution is permitted without explicit written permission from the owner, Fausto Caminiti.
+### Role-Based Access Control
+```python
+def get_queryset(self, request):
+    qs = super().get_queryset(request)
+    if request.user.is_superuser:
+        return qs
+    return qs.filter(business__owner=request.user)
+```
 
-© Fausto Caminiti, 2024
+## 🔒 Security Features
 
-For inquiries about licensing or usage, please contact couthyapper79@gmail.com.
+- CSRF Protection
+- User Authentication
+- Permission-based Access Control
+- Secure File Upload Handling
+- XSS Prevention
+- SQL Injection Protection
+
+## 📱 Responsive Design
+
+The application implements a mobile-first approach using Bootstrap, ensuring a seamless experience across all devices:
+
+- Fluid grid system
+- Responsive images
+- Collapsible navigation
+- Touch-friendly interfaces
+
+## 🔄 Business Logic
+
+### Models
+- **Business**: Core entity representing restaurant/shop
+- **Category**: Menu sections (e.g., Appetizers, Main Course)
+- **Item**: Individual menu items with details
+- **User**: Extended Django user model
+
+### Key Workflows
+1. Business Registration
+2. Menu Creation and Management
+3. Category Organization
+4. Item Management
+5. Image Processing and Optimization
+
+## 🧪 Testing
+
+```bash
+python manage.py test
+```
+
+The application includes tests for:
+- Model validation
+- View responses
+- Form processing
+- User authentication
+- File uploads
+
+## 📈 Future Enhancements
+
+- [ ] RESTful API Implementation
+- [ ] OAuth Integration
+- [ ] Real-time Updates
+- [ ] Advanced Analytics
+- [ ] Payment Gateway Integration
+- [ ] Multi-language Support
+- [ ] PWA Features
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## 👤 Author
+
+fausto caminiti
+- GitHub: [couthyapper7](https://github.com/couthyapper7)
+- LinkedIn: [fausto caminiti](https://www.linkedin.com/in/fausto-caminiti-8774072b7/)
+
+## 🙏 Acknowledgments
+
+- Django Documentation
+- Bootstrap Team
+- Python Community
